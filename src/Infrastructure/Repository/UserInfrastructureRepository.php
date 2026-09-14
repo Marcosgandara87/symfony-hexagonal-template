@@ -42,9 +42,9 @@ class UserInfrastructureRepository extends ServiceEntityRepository implements Us
         $useInfrastructure = new UserInfrastructure();
         $useInfrastructure->setEmail($user->getEmail());
         $useInfrastructure->setPassword($user->getPassword());
-
-        $this->persist($useInfrastructure);
-        $this->flush();
+        $entityManager = $this->getEntityManager();
+        $entityManager->persist($useInfrastructure);
+        $entityManager->flush();
         return $user;
 
     }

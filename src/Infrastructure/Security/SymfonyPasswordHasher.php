@@ -24,7 +24,7 @@ class SymfonyPasswordHasher implements PasswordHasherInterface
         return $this->symfonyHasher->isPasswordValid($entity, $plainPassword);
     }   
 
-     public function hash(DomainUser $user, string $plainPassword): bool
+     public function hash(DomainUser $user, string $plainPassword): string
     {
         $entity = new UserInfrastructure();
         $entity->setPassword($user->getPassword());

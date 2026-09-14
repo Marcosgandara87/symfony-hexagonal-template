@@ -3,7 +3,7 @@
 namespace App\Domain\Repository;
 use App\Domain\Model\User as DomainUser;
 
-
+                           
 interface UserRepositoryInterface
 {
 
