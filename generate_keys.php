@@ -1,0 +1,1 @@
+<?php mkdir("config/jwt", 0777, true); $c=["digest_alg"=>"sha256","private_key_bits"=>2048,"private_key_type"=>OPENSSL_KEYTYPE_RSA]; $r=openssl_pkey_new($c); openssl_pkey_export($r,$p); file_put_contents("config/jwt/private.pem",$p); $d=openssl_pkey_get_details($r); file_put_contents("config/jwt/public.pem",$d["key"]); echo "¡Llaves creadas con exito!\n";

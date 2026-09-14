@@ -1,0 +1,43 @@
+security:
+    # https://symfony.com/doc/current/security.html#registering-the-user-hashing-passwords
+    password_hashers:
+        Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: 'auto'
+
+    # https://symfony.com/doc/current/security.html#loading-the-user-the-user-provider
+    providers:
+        app_user_provider:
+            entity:
+                class: App\Infrastructure\Entity\UserInfrastructure
+                property: email
+
+    firewalls:
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+
+        # Endpoint público para autenticarse y obtener el token
+        login:
+            pattern: ^/api/login
+            stateless: true
+            security: false
+
+        # Resto de la API protegida (Webhooks de disponibilidad, etc.)
+        api:
+            pattern: ^/api/v1
+            stateless: true
+            # Activamos un autenticador personalizado que leerá el token de Redis
+            custom_authenticators:
+                - App\Infrastructure\Security\AccessTokenAuthenticator
+
+    # 3. Control de acceso estricto por expresiones regulares
+    access_control:
+when@test:
+    security:
+        password_hashers:
+            # Password hashers are resource-intensive by design to ensure security.
+            # In tests, it's safe to reduce their cost to improve performance.
+            Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface:
+                algorithm: auto
+                cost: 4 # Lowest possible value for bcrypt
+                time_cost: 3 # Lowest possible value for argon
+                memory_cost: 10 # Lowest possible value for argon

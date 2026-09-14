@@ -1,11 +1,17 @@
-# yaml-language-server: $schema=../vendor/symfony/routing/Loader/schema/routing.schema.json
+# 🚀 1. Registramos el controlador global de Login (el que está suelto en src/Infrastructure/API)
+API_GLOBAL:
+    prefix: /api
+    type: attribute
+    resource:
+        path: ../src/Infrastructure/API
+        namespace: App\Infrastructure\API
+        # 🚨 Le decimos que NO entre a la subcarpeta V1 para que no se dupliquen las rutas
+        exclude: ../src/Infrastructure/API/V1 
 
-# This file is the entry point to configure the routes of your app.
-# Methods with the #[Route] attribute are automatically imported.
-# See also https://symfony.com/doc/current/routing.html
-
-# To list all registered routes, run the following command:
-#   bin/console debug:router
-
-controllers:
-    resource: routing.controllers
+# 🚀 2. Registramos de forma independiente la tubería de la Versión 1
+API_V1:
+    prefix: /api/v1                     # 👈 Clavale el prefijo completo explícito acá
+    type: attribute
+    resource:
+        path: ../src/Infrastructure/API/V1   # 👈 Apunta a la subcarpeta física
+        namespace: App\Infrastructure\API\V1 # 👈 Mapea el namespace de PHP
